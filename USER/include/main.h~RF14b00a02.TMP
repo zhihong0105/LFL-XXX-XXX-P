@@ -1,0 +1,399 @@
+#ifndef  __MAIN_H__
+#define  __MAIN_H__
+/************************************************************************************/
+//降额使能
+#define  VOLTAGE_REDUCE_EN       1  /* 电压降额使能：0：关闭；1：使能 */
+#define  TEMP_REDUCE_EN          1  /* 温度降额使能：0：关闭；1：使能 */
+/* 制具校正参数使能 */
+#define  PARM_REPAIR_EN          0  /* 0：关闭；1：使能 */
+/* 输入电压保护使能 */
+#define  VOL_IN_PROTECT_EN       1  /* 0：关闭；1：使能 */
+//PLC功率配置使能
+#define  PLC_SET_POWER_EN        0 /* 0：关闭；1：使能 */
+//半桥PWM渐变使能
+#define  PWM_STE_EN              1 /* 0：关闭；1：使能 */
+#if PWM_STE_EN == 1
+    #define DIM_PWM_MODE         1 /* 1:调节周期；2：调节频率 */
+#endif
+/* 测试模式，测试电路驱动是否正常，该功能只用于测试，不能用于正常工作 */
+#define  PWM_TEST                0 /* 0:关闭；1：开启 */
+#if PWM_TEST == 1
+  #define PWM_TEST_FREQ          160000   /* 固定输出的频率 */
+  #define PWM_TEST_PERIOD        ((unsigned int)(FCY/PWM_TEST_FREQ))
+#endif 
+//电源类型选择
+#define  POWER_TYPE              _185W48V
+//输出过压使能
+#define VOL_OUT_OVER_PROTECT_EN  1
+/* 0:关闭；1：使能 */
+#if VOL_OUT_OVER_PROTECT_EN == 1
+  #define  DELTA_VOUT            3  /* 输出电压 > VOL_RATED + DELTA_VOUT时保护，关闭输出 */
+  #define  RESTART_VOUT          2  /* 输出电压 < VOL_RATED + RESTART_VOUT，恢复输出*/
+#endif
+//输入计量测量的修正值
+#define VOL_IN_REPAIR            0//3
+#define CUR_IN_REPAIR            0
+#define POW_IN_REPAIR            0
+/************************************************************************************/
+//电源类型宏定义
+#define _120W20V                  0X01
+#define _120W36V                  0X02
+#define _120W48V                  0X03
+#define _150W20V                  0X04
+#define _150W36V                  0X05
+#define _150W42V                  0X06
+#define _150W48V                  0X07
+#define _185W24V                  0X08
+#define _185W48V                  0X09
+#define _100W20V                  0X0A
+#define _100W36V                  0X0B
+#define _100W48V                  0X0C
+#define _84W30V                   0X0D
+
+#if   POWER_TYPE ==  _84W30V     /* 84W30V */
+    #define  DEVICE_NUMBER        0X00   /* 设备码 */
+    #define  POW_LIMIT            84     /* 额定功率 */
+    #define  CUR_RATED            2.8    /* 额定电流 */
+    #define  VOL_RATED            30     /* 开路保护电压值 */
+    #define  SR_OUT               0.025  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           10.1   /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           44     /* 输出电流放大倍数 */
+    #define  DEAD_TIME            20     /* 死区时间：400ns */
+#elif POWER_TYPE ==  _100W20V     /* 100W20V */       //该机型为了用120W覆盖100W做认证
+    #define  DEVICE_NUMBER        0X19   /* 设备码 */
+    #define  POW_LIMIT            100    /* 额定功率 */
+    #define  CUR_RATED            5.0    /* 额定电流 */
+    #define  VOL_RATED            20//28 /* 开路保护电压值 */
+    #define  SR_OUT               0.01   /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           6.1    /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           63     /* 输出电流放大倍数 */
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE ==  _100W36V     /* 100W36V */
+    #define  DEVICE_NUMBER        0X19   /* 设备码 */
+    #define  POW_LIMIT            100    /* 额定功率 */
+    #define  CUR_RATED            2.75   /* 额定电流 */
+    #define  VOL_RATED            36//42     /* 开路保护电压值 */
+    #define  SR_OUT               0.025  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           10.1   /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           44     /* 输出电流放大倍数 */
+    #define  DEAD_TIME            20     /* 死区时间：400ns */
+#elif POWER_TYPE ==  _100W48V     /* 100W48V */
+    #define  DEVICE_NUMBER        0X19   /* 设备码 */
+    #define  POW_LIMIT            100    /* 额定功率 */
+    #define  CUR_RATED            2.1    /* 额定电流 */
+    #define  VOL_RATED            48     /* 开路保护电压值 */
+    #define  SR_OUT               0.025  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           13     /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           57     /* 输出电流放大倍数 */ 
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE ==  _120W20V     /* 120W20V */
+    #define  DEVICE_NUMBER        0X1D   /* 设备码 */
+    #define  POW_LIMIT            120    /* 额定功率 */
+    #define  CUR_RATED            6.0    /* 额定电流 */
+    #define  VOL_RATED            20//28     /* 开路保护电压值 */
+    #define  SR_OUT               0.01   /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           6.1    /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           51     /* 输出电流放大倍数 */
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE ==  _120W36V     /* 120W36V */
+    #define  DEVICE_NUMBER        0X1D   /* 设备码 */
+    #define  POW_LIMIT            120    /* 额定功率 */
+    #define  CUR_RATED            3.15   /* 额定电流 */
+    #define  VOL_RATED            36//42     /* 开路保护电压值 */
+    #define  SR_OUT               0.025  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           10.1   /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           39     /* 输出电流放大倍数 */
+    #define  DEAD_TIME            20     /* 死区时间：400ns */
+#elif POWER_TYPE ==  _120W48V
+    #define  DEVICE_NUMBER        0X1D   /* 设备码 */
+    #define  POW_LIMIT            120    /* 额定功率 */
+    #define  CUR_RATED            2.5    /* 额定电流 */
+    #define  VOL_RATED            48//54     /* 开路保护电压值 */
+    #define  SR_OUT               0.025  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           13     /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           48     /* 输出电流放大倍数 */ 
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE == _150W20V
+    #define  DEVICE_NUMBER        0X27   /* 设备码 */
+    #define  POW_LIMIT            150    /* 额定功率 */
+    #define  CUR_RATED            7.5    /* 额定电流 */
+    #define  VOL_RATED            20//28     /* 开路保护电压值 */
+    #define  SR_OUT               0.005  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           6.1    /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           79.5   /* 输出电流放大倍数 */ 
+    #define  DEAD_TIME            40     /* 死区时间：800ns */    
+#elif POWER_TYPE == _150W36V
+    #define  DEVICE_NUMBER        0X27   /* 设备码 */
+    #define  POW_LIMIT            150    /* 额定功率 */
+    #define  CUR_RATED            4.2    /* 额定电流 */
+    #define  VOL_RATED            36// 42     /* 开路保护电压值 */
+    #define  SR_OUT               0.01   /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           10.1   /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           71.4   /* 输出电流放大倍数 */ 
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE == _150W42V
+    #define  DEVICE_NUMBER        0X27   /* 设备码 */
+    #define  POW_LIMIT            150    /* 额定功率 */
+    #define  CUR_RATED            3.5    /* 额定电流 */
+    #define  VOL_RATED            42     /* 开路保护电压值 */
+    #define  SR_OUT               0.01   /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           11     /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           85.9 //84.7   /* 输出电流放大倍数 */
+    #define  DEAD_TIME            40     /* 死区时间：800ns */    
+#elif POWER_TYPE == _150W48V
+    #define  DEVICE_NUMBER        0X27   /* 设备码 */
+    #define  POW_LIMIT            150    /* 额定功率 */
+    #define  CUR_RATED            3.15   /* 额定电流 */
+    #define  VOL_RATED            48// 54     /* 开路保护电压值 */
+    #define  SR_OUT               0.01   /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           13     /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           96.486//95.2   /* 输出电流放大倍数 */ 
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE == _185W24V
+    #define  DEVICE_NUMBER        0X38   /* 设备码 */
+    #define  POW_LIMIT            185    /* 额定功率 */
+    #define  CUR_RATED            7.8    /* 额定电流 */
+    #define  VOL_RATED            24// 28     /* 开路保护电压值 */
+    #define  SR_OUT               0.005  /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           6.1    /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           77.7   /* 输出电流放大倍数 */
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#elif POWER_TYPE == _185W48V
+    #define  DEVICE_NUMBER        0X38   /* 设备码 */
+    #define  POW_LIMIT            185    /* 额定功率 */
+    #define  CUR_RATED            3.85   /* 额定电流 */
+    #define  VOL_RATED            48// 54     /* 开路保护电压值 */
+    #define  SR_OUT               0.01   /* 输出电流采样电阻 */
+    #define  U_GAIN_OUT           13     /* 输出电压采样衰减倍数 */
+    #define  I_GAIN_OUT           77.7   /* 输出电流放大倍数 */
+    #define  DEAD_TIME            40     /* 死区时间：800ns */
+#else
+    #error "Don't select the power type!"
+#endif
+
+/************************************************************************************/
+#define  TIM3_CC1EN    TIM3->CCER |= 0X0001
+#define  TIM3_CC1DIS   TIM3->CCER &= (~0X0001)
+#define  TIM3_PWM_SET(x) TIM3->CCR1 = (x)
+/*******************************************/
+//#define  TEST                    0
+
+//#define  PA9_IO                  0          //将TX1（PA9）作为普通IO使用
+
+#define  TRUE                     1             
+#define  FALSE                    0            // ?????? 
+
+#define  VOL_SHORT_CIRCUIT        10 
+#define  CUR_SHORT                0.3   /* 短路判断电流阀值 */
+#define  CUR_OPEN                 0.3   /* 开路判断电压阀值 */
+#define  START_DIM                10
+#define  DIM_MAX                  200
+#define  DIM_MIN                  60
+
+/* 常量定义 */
+#define  UREF_OUT                 5.0
+/* real value to AD value */
+#define  VOLTAGE_BUS_TO_AD(x)     ((x)*(12.0/(12+750+750)/3.3*4096))
+#define  VOLTAGE_TO_AD_OUT(x)     ((x) * 4095/UREF_OUT/U_GAIN_OUT)          
+#define  CURRENT_TO_AD_OUT(x)     ((x) * 4095 * SR_OUT/UREF_OUT*I_GAIN_OUT)         
+//#define  POWER_TO_AD_OUT(x)       ((unsigned long)(VOLTAGE_TO_AD_IN(x))*(4095/UREF_OUT/U_GAIN_OUT)*x))
+/* AD value to real value */
+#define  AD_TO_VOLTAGE_OUT(x)     ((x)/VOLTAGE_TO_AD_OUT(1))  //0.074067
+#define  AD_TO_CURRENT_OUT(x)     ((x)/CURRENT_TO_AD_OUT(1))    //0.0034292
+
+
+/* The state of Power */
+#define  POWER_ON                 0X0001
+#define  VOL_IN_UNDER             0X0002
+#define  VOL_IN_OVER              0X0004
+#define  POWER_IN_OVER            0X0008
+#define  OPEN_LOOP                0X0010
+#define  SHORT_CIR                0X0020
+#define  UN_START                 0X0040
+#define  TEMPERATURE_UNDER        0X0080
+#define  TEMPERATURE_OVER         0X0100
+#define  FAULT_ALL                (VOL_IN_UNDER | VOL_IN_OVER | POWER_IN_OVER | OPEN_LOOP | SHORT_CIR | UN_START | TEMPERATURE_UNDER | TEMPERATURE_OVER) 
+
+/* The threhold of protect value */
+#define  VOL_IN_UNDER_VALUE                  80                    /* 欠压保护值 */
+#define  VOL_IN_OVER_VALUE                   290//300                   /* 过压保护值 */
+//#define  POWER_IN_OVER_VALUE      170
+//#define  OPEN_LOOP_VALUE          200
+#define  TEMPERATURE_UNDER_VALUE             -50                   /* 超低温保护值 */
+#define  TEMPERATURE_OVER_VALUE              115                   /* 超高温保护值 */
+#define  TEMPERATURE_OVER_RESTART_VALUE     (TEMPERATURE_OVER_VALUE - 10)
+#define  VOL_AC_DOWN                         70                    /* 掉电关闭，输入电压低于该值就关闭 */
+#define  VOL_AC_RESTART                      (VOL_AC_DOWN + 10)
+
+#define  UNDER_VOL_RESART_TIME               2000  
+#define  REDUCE_TIME                         800
+#define  REDUCE_START_DELAY_TIM              2000
+#define  ADC_TIME                            1
+#define  VOL_OUT_OVER_PROTECCT_DELAY         2000
+#define  RUN_DELAY                500         /* 程序运行指示灯翻转延时 */
+/* UART */
+#define  SEND_MAX                 30         //发送的最多个数
+#define  RECIVE_MAX               15                //PLC接收的最大数据个数
+#define  RECIVE_DELAY             (RECIVE_MAX * 2)  //接收延时
+
+/*  */
+#define  PWM_OFF                  TIM1->BDTR &= ~0x4000; TIM1->BDTR &= ~0x8000; //g_ucPowerState |= POWER_PWM;
+#define  PWM_ON                   TIM1->BDTR |= 0x4000;  TIM1->BDTR |= 0x8000;  //g_ucPowerState &= ~POWER_PWM;
+
+/* FAULT */
+#define  FAULT_DELAY              1000//5000
+#define  PROTECT_CNT              10            //保护判断次数
+#define  DEALY_CNT                300
+#define  DIM_INTERVAL             1000
+#define  BREAK_TIME               10
+
+/* typedef */
+typedef struct 
+{
+	 unsigned char       ucLampEn;
+	 unsigned char       ucIgniteEn;
+	 unsigned char       ucIgniting;
+	 unsigned char       ucIgniteTimes;
+	 unsigned short int  uiIgniteInterval;
+	 unsigned char       ucUART_SendEn;
+	 unsigned char       ucUART_SendState;
+	 unsigned short int  uiCurrentSet;
+	//The data send to PLC
+	 short int           iTemperature;
+	 unsigned short int  uiVoltageOut;
+	 unsigned short int  uiCurrentOut;
+	 unsigned short int  uiVoltageIn;
+	 unsigned short int  uiCurrentIn;
+	 unsigned short int  uiPowerIn;
+	 unsigned char       ucFactor;
+	 unsigned short int  uiState;
+	 short int           iBrightness;
+	 unsigned long       ulPowerSet;
+}ScmSysParam;
+
+// 状态机枚举数据
+typedef enum 
+{ 
+	START_UP = 0, SOFT_START = 1, NORMAL_WORK = 2, FAULT = 3
+}EcmWorkState;
+
+// 系统标志位
+typedef struct
+{
+	unsigned char ucShort;
+	unsigned char ucOpen;
+}Flag;
+
+#if PLC_SET_POWER_EN == 1
+#define  WRITE_SUCCESS_FLAG                  0X1468
+#define  REPAIR_PARAM_FLASH_START            0x0800F800     /* RepairParam参数FLASH 存储地址 */  
+typedef struct 
+{
+    unsigned short int  uiStartFlag;
+    unsigned short int  uiCurrentSet;     /* 单位：0.1V */
+    unsigned short int  uiEndFlag;
+}ScmRepairParam;
+#define REPAIR_LONG         sizeof(ScmRepairParam)
+#define CUR_RATED_MIN       0.8
+#define CUR_RATED_MAX       1.0
+#endif
+
+#define  LED_OFF   GPIOF->BRR |= GPIO_Pin_7      //GPIO_WriteBit(GPIOF, GPIO_Pin_7, Bit_RESET)
+#define  LED_ON    GPIOF->BSRR |= GPIO_Pin_7     //GPIO_WriteBit(GPIOF, GPIO_Pin_7, Bit_SET)
+#define  LED_TURN  {if(GPIO_ReadOutputDataBit(GPIOF, GPIO_Pin_7)==1)GPIO_WriteBit(GPIOF, GPIO_Pin_7, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOF, GPIO_Pin_7, Bit_SET);}
+#define  PFC_OFF   GPIO_WriteBit(GPIOF, GPIO_Pin_6, Bit_RESET)
+#define  PFC_ON    GPIO_WriteBit(GPIOF, GPIO_Pin_6, Bit_SET)
+#define  PFC_TURN {if(GPIO_ReadOutputDataBit(GPIOF, GPIO_Pin_6)==1)GPIO_WriteBit(GPIOF, GPIO_Pin_6, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOF, GPIO_Pin_6, Bit_SET);}
+#ifdef   PA9_IO
+#define  DS2_OFF   GPIO_WriteBit(GPIOA, GPIO_Pin_9, Bit_RESET)
+#define  DS2_ON    GPIO_WriteBit(GPIOA, GPIO_Pin_9, Bit_SET)
+#define  DS2_TURN {if(GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_9)==1)GPIO_WriteBit(GPIOA, GPIO_Pin_9, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOA, GPIO_Pin_9, Bit_SET);}
+#endif
+
+#define  DS3_OFF   GPIO_WriteBit(GPIOA, GPIO_Pin_10, Bit_RESET)
+#define  DS3_ON    GPIO_WriteBit(GPIOA, GPIO_Pin_10, Bit_SET)
+#define  DS3_TURN {if(GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_10)==1)GPIO_WriteBit(GPIOA, GPIO_Pin_10, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOA, GPIO_Pin_10, Bit_SET);}
+
+/* MCP41010控制 */
+#define  SCK_HIGH  GPIOB->BSRR = GPIO_Pin_4   /* SCK = 1 */
+#define  SCK_LOW   GPIOB->BRR = GPIO_Pin_4    /* SCK = 0 */
+#define  SI_HIGH   GPIOA->BSRR = GPIO_Pin_4   /* SI = 1 */
+#define  SI_LOW    GPIOA->BRR = GPIO_Pin_4    /* SI = 0 */
+
+/* CSE7759控制 */
+#define  SEL_CF1_CURRENT   GPIOA->BRR = GPIO_Pin_6    /* SEL = 0 */
+#define  SEL_CF1_VOLTAGE   GPIOA->BSRR = GPIO_Pin_6   /* SEL = 1 */ 
+
+#define  SEL_TURN {if(GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_6)==1)GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOA, GPIO_Pin_6, Bit_SET);}
+
+
+#define  CF_ON    GPIOA->BSRR = GPIO_Pin_2    /* CF = 1 */
+#define  CF_OFF   GPIOA->BRR = GPIO_Pin_2      /* CF = 0 */ 
+#define  CF_TURN  {if(GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_2)==1)GPIO_WriteBit(GPIOA, GPIO_Pin_2, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOA, GPIO_Pin_2, Bit_SET);}
+#define  CF1_ON    GPIOA->BSRR = GPIO_Pin_5    /* CF1 = 1 */
+#define  CF1_OFF   GPIOA->BRR = GPIO_Pin_5      /* CF1 = 0 */ 
+#define  CF1_TURN  {if(GPIO_ReadOutputDataBit(GPIOA, GPIO_Pin_5)==1)GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_RESET);\
+                   else GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_SET);}
+
+/* 开始计时 */
+#define  TIME_START()        TIM_Cmd(TIM2, ENABLE)
+#define  MAKE_TIME_READY()   {TIM_Cmd(TIM2, DISABLE); TIM2->CNT = 0;}
+/**/
+#define  TIME_CNT   TIM2->CNT
+/* CSE7759切换电压电流通道延时(ms) */
+#define  SEL_DELAY                500
+/*  */
+#define  DO_NOTING                0
+#define  WAITING_TRIG             1
+#define  TESTING                  2
+#define  WAITING_END              3
+
+/* CSE7759测试状态定义 */
+#define  ALL_READY                0     /* 可以开始测量 */
+#define  TEST_VOLTAGE             1     /* 测量电压 */
+#define  TEST_VOLTAGE_DELAY       2
+#define  TEST_VOLTAGE_COMPLETE    3     /* 测量电压完成 */
+#define  TEST_CURRENT             4     /* 测量电流和功率 */
+#define  TEST_CURRENT_DELAY       5
+#define  TEST_CURRENT_COMPLETE    6     /* 测量电压和功率完成 */
+#define  TEST_POWER               7
+#define  TEST_POWER_COMPLETE      8
+
+/* CSE7759计算 */
+#define  FOSC                     3579000   /* CSE7759内部参数 */
+#define  CSE_VREF                 2.43      /* CSE7759内部参数 */
+#define  VOLTAGE_ATTENUATION      (1.0/(880 + 1))
+#define  SAMPLE_RESISTANCE        0.01
+#define  FQR(x, y)                ((x) * (FCY/TIM2_DIV)/(y))                 /* 计算出真实频率 */
+#define  VOLTAGE_IN(x, y)         (FQR(x, y) * 0.17338 + 1.46) * (0.9888)            //FQR(x, y) * ((512.0 * CSE_VREF)/(2.0 * FOSC)/VOLTAGE_ATTENUATION)        /* 根据真实频率计算真实电压 */
+#define  CURRENT_IN(x, y)         (FQR(x, y) * 0.001604 + 0.0345) * (0.9276)         //FQR(x, y) * ((512.0 * CSE_VREF)/(24.0 * FOSC)/SAMPLE_RESISTANCE)
+#define  POWER_IN_REAL(x, y)      (FQR(x, y) * 0.48038 + 0.566) * (0.9255)           //FQR(x, y) * ((128.0 * CSE_VREF * CSE_VREF)/(48.0 * FOSC)/VOLTAGE_ATTENUATION/SAMPLE_RESISTANCE)
+
+
+/* TEST STATE */
+#define  SKIP                     0X01
+#define  LAMP_EN                  0X02
+#define  ORDER_EN                 0X04
+#define  DIM_PWM                  0X08
+#define  POWER_PWM                0X10
+#define  COMP_STATE               0X20
+#define  PWM_MIN                  0x40
+#define  PWM_MAX                  0x80
+/* 降额参数宏定义 */
+//输入电压降额
+#define  VOLTAGE_UP               ((float)100)
+#define  VOLTAGE_DOWN             ((float)90)
+#define  VOLTAGE_RATE             0.8
+//温度降额
+#define  TEMP_REDUCE              90
+#define  TEMP_RESTORE             80
+#define  TEMP_RATE                0.8
+
+#endif
+
