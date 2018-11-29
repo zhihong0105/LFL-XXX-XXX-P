@@ -1,0 +1,123 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.14.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: wang zhihong, jy, LIC=8VR9U-S3NWH-SYKVA-1PZ4Q-96MJZ-56QWJ
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.14.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 1 (build 106)
+Assembler:       Armasm.exe V5.05 update 1 (build 106)
+Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
+Library Manager: ArmAr.exe V5.05 update 1 (build 106)
+Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
+CPU DLL:         SARMCM3.DLL V5.14.0.0
+Dialog DLL:      DARMCM1.DLL V1.12.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.14.0_KEIL
+Dialog DLL:      TARMCM1.DLL V1.9.0.0
+ 
+<h2>Project:</h2>
+E:\聚阳\01. 项目\06. LED电源\01. LFL-150(185)\LFL-150(185)-P\03. 程序\LFL-Series-0108\Project\Project.uvprojx
+Project File Date:  04/04/2018
+
+<h2>Output:</h2>
+Build target 'Project'
+compiling system_stm32f0xx.c...
+compiling stm32f0xx_adc.c...
+compiling stm32f0xx_cec.c...
+compiling stm32f0xx_comp.c...
+compiling stm32f0xx_crc.c...
+compiling stm32f0xx_dac.c...
+compiling stm32f0xx_dbgmcu.c...
+compiling stm32f0xx_dma.c...
+compiling stm32f0xx_exti.c...
+compiling stm32f0xx_flash.c...
+compiling stm32f0xx_gpio.c...
+compiling stm32f0xx_i2c.c...
+compiling stm32f0xx_iwdg.c...
+compiling stm32f0xx_misc.c...
+compiling stm32f0xx_pwr.c...
+compiling stm32f0xx_rcc.c...
+compiling stm32f0xx_rtc.c...
+compiling stm32f0xx_spi.c...
+compiling stm32f0xx_syscfg.c...
+compiling stm32f0xx_tim.c...
+compiling stm32f0xx_usart.c...
+compiling stm32f0xx_wwdg.c...
+assembling startup_stm32f0xx.s...
+compiling delay.c...
+..\USER\source\delay.c(15): warning:  #223-D: function "IWDG_ReloadCounter" declared implicitly
+        IWDG_ReloadCounter();
+..\USER\source\delay.c: 1 warning, 0 errors
+compiling main.c...
+..\USER\source\main.c(797): warning:  #167-D: argument of type "volatile unsigned char *" is incompatible with parameter of type "unsigned char *"
+                                                ePowerCheck.l = Char2Float(&(g_ucReciveData[2])); 
+..\USER\source\main.c(798): warning:  #167-D: argument of type "volatile unsigned char *" is incompatible with parameter of type "unsigned char *"
+                                                eVoltageCheck.l = Char2Float(&(g_ucReciveData[6])); 
+..\USER\source\main.c(799): warning:  #167-D: argument of type "volatile unsigned char *" is incompatible with parameter of type "unsigned char *"
+                              eCurrentCheck.l = Char2Float(&(g_ucReciveData[10]));
+..\USER\source\main.c(817): warning:  #167-D: argument of type "volatile unsigned char *" is incompatible with parameter of type "unsigned char *"
+                                                uTemp.l = Char2Float(&(g_ucReciveData[14]));       //Output Voltage
+..\USER\source\main.c(827): warning:  #167-D: argument of type "volatile unsigned char *" is incompatible with parameter of type "unsigned char *"
+                                                uTemp.l = Char2Float(&(g_ucReciveData[18]));       //Output Current
+..\USER\source\main.c(836): warning:  #167-D: argument of type "volatile unsigned char *" is incompatible with parameter of type "unsigned char *"
+                                                uTemp.l = Char2Float(&(g_ucReciveData[22]));       //Output Current
+..\USER\source\main.c(308): warning:  #177-D: variable "uIntercept" was declared but never referenced
+        UcmRepairParam uIntercept;   //??
+..\USER\source\main.c(1409): warning:  #514-D: pointless comparison of unsigned integer with a negative constant
+                if(fg_cTemperature < TEMPERATURE_UNDER_VALUE){
+..\USER\source\main.c(1750): warning:  #177-D: variable "ucCnt" was declared but never referenced
+        unsigned char   ucCnt;
+..\USER\source\main.c(102): warning:  #177-D: variable "fg_uiLedVolHis" was declared but never referenced
+    static unsigned short int fg_uiLedVolHis;           //保留的历史输出电压数据。
+..\USER\source\main.c(1135): warning:  #177-D: function "DimCurrentOutMCP41010" was declared but never referenced
+  static void DimCurrentOutMCP41010(unsigned char ucDim)
+..\USER\source\main.c: 11 warnings, 0 errors
+compiling stm32f0xx_it.c...
+..\USER\source\stm32f0xx_it.c(484): warning:  #550-D: variable "s_uiFbAdcPrevious" was set but never used
+  static unsigned short int s_uiFbAdcPrevious = 4096;
+..\USER\source\stm32f0xx_it.c: 1 warning, 0 errors
+compiling System_Initialize.c...
+compiling Temperature_Test.c...
+compiling MyMath.c...
+..\USER\source\MyMath.c(44): warning:  #1-D: last line of file ends without a newline
+   
+..\USER\source\MyMath.c: 1 warning, 0 errors
+compiling FlashOperate.c...
+..\USER\source\FlashOperate.c(274): warning:  #177-D: variable "ucTemp" was declared but never referenced
+         unsigned char ucReturnValue = 0,ucTemp[2];
+..\USER\source\FlashOperate.c(275): warning:  #177-D: variable "uiTemp" was declared but never referenced
+         unsigned short int uiTemp;
+..\USER\source\FlashOperate.c(307): warning:  #177-D: variable "ucTemp" was declared but never referenced
+          unsigned char ucReturnValue = 0 ,ucTemp[2];
+..\USER\source\FlashOperate.c(309): warning:  #177-D: variable "uiTemp" was declared but never referenced
+          unsigned short int uiCnt, uiTemp;
+..\USER\source\FlashOperate.c(411): warning:  #177-D: variable "pucData" was declared but never referenced
+        unsigned char* pucData;
+..\USER\source\FlashOperate.c(5): warning:  #177-D: function "Delay" was declared but never referenced
+  static void Delay(unsigned short int uiTime)
+..\USER\source\FlashOperate.c: 6 warnings, 0 errors
+compiling PidControl.c...
+compiling Repair.c...
+..\USER\source\Repair.c(19): warning:  #177-D: variable "uiCnt" was declared but never referenced
+      unsigned short int uiCnt;
+..\USER\source\Repair.c(71): warning:  #177-D: variable "uiIndex" was declared but never referenced
+        unsigned short int uiIndex;
+..\USER\source\Repair.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=32956 RO-data=8920 RW-data=312 ZI-data=1984  
+FromELF: creating hex file...
+".\output\LES-185-GP1120-CA-0.0.1.141117_Release" - 0 Error(s), 22 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  E:\聚阳\01. 项目\06. LED电源\01. LFL-150(185)\LFL-150(185)-P\03. 程序\LFL-Series-0108\Project\RTE
+  C:\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.5.0
+
+<h2>Collection of Component Files used:</h2>
+</pre>
+</body>
+</html>
